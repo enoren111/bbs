@@ -1,0 +1,3 @@
+rootProject.name = 'forum_sys'
+include 'forum-service:forum-core'
+include 'forum-service:forum-core'
