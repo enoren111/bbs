@@ -5,10 +5,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import space.kordegi.forumcore.entity.User;
+import space.kordegi.forumcore.service.LoginService;
 import space.kordegi.forumcore.service.UserService;
 
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/user")
 public class UserController {
   @Resource
   private UserService userService;
@@ -18,5 +19,8 @@ public class UserController {
     return userService.getUser();
   }
 
+  @GetMapping("/getPassword")
+  public String getPassword(){return  userService.getPassword();}
 
 }
+

@@ -1,24 +1,35 @@
 import { useState } from 'react';
 import {Form, Input, Button, message, Layout} from 'antd';
-import { reactLocalStorage } from 'reactjs-localstorage';
 import {LoginTitle} from "./style.jsx";
 import {useNavigate} from "react-router-dom";
+import axios from 'axios';
 
 const LoginForm = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false); //This is a param and function to control the state
     let navigate = useNavigate();
     const onFinish = async (values) => {
         setLoading(true);
-        if (values.username === 'admin' && values.password === 'admin') {
-            reactLocalStorage.set('token', values);
-            //navigate
-            navigate('/home');
-            message.success('Login success!');
-        } else {
-            message.error('Username or Password Error');
-        }
+        
+        const response = await axios.post('http://localhost:8088/login',{
+            username:values.username,
+            password:values.password,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then(response => {
+                message.success('welcome to the bbs!');
+                navigate('/home');
+        }).catch(error => {
+            console.error('Login failed', error);
+            if (error.response && error.response.status === 401) {
+                message.error('Invalid username or password');
+            } else {
+                message.error('');
+            }
+        });
         setLoading(false);
-    };
+    }
 
     return (
         <Layout>
